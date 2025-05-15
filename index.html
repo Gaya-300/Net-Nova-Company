@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetNova - AI-Native Networking Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#e0f7fa',
+              100: '#b2ebf2',
+              200: '#80deea',
+              300: '#4dd0e1',
+              400: '#26c6da',
+              500: '#00bcd4', // Cyan 500
+              600: '#00acc1',
+              700: '#0097a7',
+              800: '#00838f',
+              900: '#006064',
+            },
+            secondary: {
+              50: '#e0f7fa',
+              100: '#b2ebf2',
+              200: '#80deea',
+              300: '#4dd0e1',
+              400: '#26c6da',
+              500: '#00bcd4', // Cyan 500
+              600: '#00acc1',
+              700: '#0097a7',
+              800: '#00838f',
+              900: '#006064',
+            },
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-in-out forwards;
+    }
+    
+    .animate-slide-up {
+      animation: slideUp 0.8s ease-out forwards;
+    }
+    
+    .animate-slide-in-right {
+      animation: slideInRight 0.8s ease-out forwards;
+    }
+    
+    .animate-pulse-slow {
+      animation: pulse 3s infinite;
+    }
+    
+    /* Delay utilities */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    
+    /* Hero slider */
+    .hero-slider {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    .slide.active {
+      opacity: 1;
+    }
+    
+    /* Logo slider */
+    .logo-slider {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    
+    .logo-slide-track {
+      animation: scroll 30s linear infinite;
+      display: flex;
+      width: calc(250px * 12);
+    }
+    
+    .logo-slide {
+      width: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+    }
+    
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-250px * 6)); }
+    }
+    
+    /* Hover effects */
+    .hover-lift {
+      transition: transform 0.3s ease;
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-5px);
+    }
+    
+    .hover-glow {
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    
+    .hover-glow:hover {
+      box-shadow: 0 0 15px rgba(0, 115, 255, 0.5);
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800">
+  <!-- Topbar -->
+  <div class="bg-gray-100 text-xs text-gray-600">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex justify-end items-center space-x-6">
+      <a href="#" class="hover:text-primary-500 hover:underline transition-colors duration-300">How to Buy</a>
+      <a href="#" class="hover:text-primary-500 hover:underline transition-colors duration-300">Partners</a>
+      <a href="login.html" class="hover:text-primary-500 hover:underline transition-colors duration-300 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        Log in
+      </a>
+      <a href="#" class="hover:text-primary-500 hover:underline transition-colors duration-300 font-medium flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        EN US
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center whitespace-nowrap">
+      <!-- Left side: Logo and nav links -->
+      <div class="flex items-center space-x-8">
+        <a href="/" class="text-2xl font-bold text-primary-500 hover:text-primary-400 transition-colors duration-300">NetNova</a>
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="hover:text-primary-500 hover:underline transition-colors duration-300">Solutions</a>
+          <div class="relative group">
+            <button class="flex items-center hover:text-primary-500 hover:underline transition-colors duration-300">
+              Products
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <!-- Dropdown would go here -->
+          </div>
+          <a href="#" class="hover:text-primary-500 hover:underline transition-colors duration-300">Services</a>
+          <a href="#" class="hover:text-primary-500 hover:underline transition-colors duration-300">Partners</a>
+          <div class="relative">
+            <button id="docDropdownBtn" class="hover:text-primary-500 hover:underline transition-colors duration-300 flex items-center">
+              Documentation and support
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform duration-300" id="docDropdownArrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Right Side: Search + Button -->
+      <div class="flex items-center space-x-8">
+        <button class="hover:text-primary-500 transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+
+        <a href="#" class="bg-primary-500 hover:bg-primary-400 text-white font-semibold px-4 py-2 rounded-full transition-colors duration-300 hidden md:block hover-glow">
+          Trials and Demos
+        </a>
+
+        <!-- Mobile menu button -->
+        <button class="md:hidden hover:text-primary-500 transition-colors duration-300" onclick="toggleMobileMenu()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-50">
+          <div class="px-4 py-3 space-y-2">
+            <a href="#" class="block hover:text-primary-500 hover:underline transition-colors duration-300">Solutions</a>
+            <a href="#" class="block hover:text-primary-500 hover:underline transition-colors duration-300">Products</a>
+            <a href="#" class="block hover:text-primary-500 hover:underline transition-colors duration-300">Services</a>
+            <a href="#" class="block hover:text-primary-500 hover:underline transition-colors duration-300">Partners</a>
+            <a href="#" class="block hover:text-primary-500 hover:underline transition-colors duration-300">Documentation and support</a>
+          </div>
+        </div>
+
+        <script>
+        function toggleMobileMenu() {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.classList.toggle('hidden');
+        }
+        </script>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Slider -->
+  <section class="hero-slider relative w-full h-[500px] md:h-[600px]">
+    <!-- Slide 1 -->
+    <div class="slide active">
+      <img src="images/wm.avif" alt="Hero Image" class="w-full h-[500px] md:h-[600px] object-cover">
+      <div class="absolute inset-0 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+          <div class="max-w-xl animate-fade-in">
+            <div class="inline-block bg-white text-primary-500 text-xs font-semibold px-2.5 py-1 rounded-full mb-4">NEW</div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Discover the latest AI-native platform innovations</h1>
+            <p class="text-white text-lg mb-6 opacity-90">Experience the power of AI-driven networking with our cutting-edge solutions designed for modern enterprises.</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="#" class="bg-white hover:bg-gray-100 text-primary-500 px-6 py-3 rounded-full font-semibold transition-colors duration-300 hover-glow">
+                Learn more
+              </a>
+              <a href="#" class="bg-transparent hover:bg-white/10 text-white border border-white px-6 py-3 rounded-full font-semibold transition-colors duration-300">
+                Watch demo
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 2 -->
+    <div class="slide">
+      <img src="images/fr.jpg" alt="Hero Image" class="w-full h-[500px] md:h-[600px] object-cover">
+      <div class="absolute inset-0 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+          <div class="max-w-xl animate-fade-in">
+            <div class="inline-block bg-white text-secondary-500 text-xs font-semibold px-2.5 py-1 rounded-full mb-4">FEATURED</div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Simplify your network with AI-driven automation</h1>
+            <p class="text-white text-lg mb-6 opacity-90">Reduce complexity and increase reliability with intelligent network management solutions.</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="#" class="bg-white hover:bg-gray-100 text-secondary-500 px-6 py-3 rounded-full font-semibold transition-colors duration-300 hover-glow">
+                Explore solutions
+              </a>
+              <a href="#" class="bg-transparent hover:bg-white/10 text-white border border-white px-6 py-3 rounded-full font-semibold transition-colors duration-300">
+                Contact sales
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI-Native Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <h3 class="font-bold text-center mb-12 opacity-0" id="ai-native-heading">
+        <span class="text-black text-3xl md:text-4xl block mb-2">Locked in, overpaying, underwhelmed?</span>
+        <span class="text-black text-3xl md:text-4xl">Only NetNova has the AI-Native cure.</span>
+      </h3>
+
+      <p class="text-base leading-relaxed max-w-4xl mx-auto opacity-0" id="ai-native-text">
+        No other vendor is driving innovation and setting new standards for AI in networking like NetNova. We're
+        redefining the category and taking our industry-leading customers along for the ride. Up to 90% fewer trouble
+        tickets? Check. 85% lower OpEx? You got it. Exceptional experiences that make you the IT hero? Welcome aboard.
+      </p>
+
+      <div class="text-center mt-8 opacity-0" id="ai-native-button">
+        <a href="#" class="inline-block px-6 py-3 bg-primary-500 hover:bg-primary-400 text-white font-medium rounded transition-colors duration-300 hover-glow">
+          Compare and contrast →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI-Native Network Diagram -->
+  <section class="py-16 bg-black text-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center">
+        <!-- Left: Diagram -->
+        <div class="w-full md:w-1/2 mb-10 md:mb-0 mr-5 opacity-0" id="network-diagram">
+          <div class="relative mx-auto" style="width: 350px; height: 350px;">
+            <!-- Outer circle -->
+            <div class="absolute inset-0 border-4 border-primary-400 rounded-full"></div>
+            
+            <!-- Center circle -->
+            <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary-500 rounded-full flex items-center justify-center">
+              <span class="text-white font-bold text-lg text-center">AI-Native<br>Network</span>
+            </div>
+            
+            <!-- Spokes -->
+            <svg class="absolute inset-0" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line x1="50" y1="50" x2="10" y2="50" stroke="#00bcd4" stroke-width="1" />
+              <line x1="50" y1="50" x2="90" y2="50" stroke="#00bcd4" stroke-width="1" />
+              <line x1="50" y1="50" x2="50" y2="10" stroke="#00bcd4" stroke-width="1" />
+              <line x1="50" y1="50" x2="25" y2="85" stroke="#00bcd4" stroke-width="1" />
+              <line x1="50" y1="50" x2="75" y2="85" stroke="#00bcd4" stroke-width="1" />
+            </svg>
+            
+            <!-- Nodes -->
+            <div class="absolute left-[10%] top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-secondary-500 rounded-full w-16 h-16 flex items-center justify-center">
+              <span class="text-xs font-semibold text-center">AIOps</span>
+            </div>
+            
+            <div class="absolute right-[10%] top-1/2 transform -translate-y-1/2 translate-x-1/2 bg-secondary-500 rounded-full w-16 h-16 flex items-center justify-center">
+              <span class="text-xs font-semibold text-center">Security</span>
+            </div>
+            
+            <div class="absolute left-1/2 top-[10%] transform -translate-x-1/2 -translate-y-1/2 bg-secondary-500 rounded-full w-16 h-16 flex items-center justify-center">
+              <span class="text-xs font-semibold text-center">Cloud</span>
+            </div>
+            
+            <div class="absolute left-[25%] bottom-[15%] transform -translate-x-1/2 translate-y-1/2 bg-secondary-500 rounded-full w-16 h-16 flex items-center justify-center">
+              <span class="text-xs font-semibold text-center">Automation</span>
+            </div>
+            
+            <div class="absolute right-[25%] bottom-[15%] transform translate-x-1/2 translate-y-1/2 bg-secondary-500 rounded-full w-16 h-16 flex items-center justify-center">
+              <span class="text-xs font-semibold text-center">Analytics</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Text -->
+        <div class="w-full md:w-1/2 md:pl-10 opacity-0" id="network-text">
+          <h2 class="text-3xl font-bold mb-6">NetNova's AI-Native Network: Purpose-built with AI and for AI</h2>
+          <p class="mb-6">Our AI-Native Network is designed from the ground up to leverage artificial intelligence at every layer, delivering unprecedented performance, security, and reliability.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <svg class="h-5 w-5 text-primary-400 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Self-driving network operations</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-5 w-5 text-primary-400 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Proactive security threat detection</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-5 w-5 text-primary-400 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Automated troubleshooting and remediation</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="h-5 w-5 text-primary-400 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Predictive analytics for capacity planning</span>
+            </li>
+          </ul>
+          <a href="#" class="inline-block mt-6 px-6 py-3 bg-primary-500 hover:bg-primary-400 text-white font-medium rounded transition-colors duration-300 hover-glow">
+            Learn more about AI-Native →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solutions Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12 opacity-0" id="solutions-heading">Secure networking solutions that meet you where you are</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Solution 1 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden opacity-0 hover-lift" id="solution-1">
+          <img src="images/ai.webp" alt="Campus and Branch" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Campus and Branch</h3>
+            <p class="text-gray-600 mb-4">Simplify operations with AI-driven insights and automation for your campus and branch locations.</p>
+            <a href="#" class="text-primary-500 font-medium hover:underline inline-flex items-center">
+              Learn more
+              <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Solution 2 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden opacity-0 hover-lift" id="solution-2">
+          <img src="images/design.png" alt="Data Center Networks" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Data Center Networks</h3>
+            <p class="text-gray-600 mb-4">Build scalable, high-performance data center networks with intelligent automation.</p>
+            <a href="#" class="text-primary-500 font-medium hover:underline inline-flex items-center">
+              Learn more
+              <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Solution 3 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden opacity-0 hover-lift" id="solution-3">
+          <img src="images/hh.jpg" alt="Enterprise WAN" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Enterprise WAN</h3>
+            <p class="text-gray-600 mb-4">Connect your distributed enterprise with secure, reliable, and intelligent WAN solutions.</p>
+            <a href="#" class="text-primary-500 font-medium hover:underline inline-flex items-center">
+              Learn more
+              <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-10 opacity-0" id="solutions-button">
+        <a href="#" class="inline-block px-6 py-3 bg-primary-500 hover:bg-primary-400 text-white font-medium rounded transition-colors duration-300 hover-glow">
+          View all solutions →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hands-on Section -->
+  <section class="py-16 bg-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center">
+        <!-- Left: Image -->
+        <div class="w-full md:w-1/2 mb-10 md:mb-0 opacity-0" id="hands-on-image">
+          <img src="images/OIP.webp" alt="Hands-on with Mist AI" class="rounded-lg shadow-lg">
+        </div>
+        
+        <!-- Right: Text -->
+        <div class="w-full md:w-1/2 md:pl-10 opacity-0" id="hands-on-text">
+          <h2 class="text-3xl font-bold mb-6">Go hands-on with Mist AI</h2>
+          <p class="mb-6">Experience the power of AI-driven networking firsthand. Our interactive demos let you explore how Mist AI can transform your network operations.</p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#" class="bg-primary-500 hover:bg-primary-400 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-300 hover-glow">
+              Try Mist AI now →
+            </a>
+            <a href="#" class="bg-white hover:bg-gray-50 text-primary-500 border border-primary-500 px-6 py-3 rounded-full font-semibold transition-colors duration-300">
+              Schedule a guided demo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gartner Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12 opacity-0" id="gartner-heading">
+        See everywhere: NetNova is positioned in the Gartner<sup>®</sup> Magic Quadrant™
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Gartner Card 1 -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 opacity-0 hover-lift" id="gartner-1">
+          <img src="images/nnnn.jpg" alt="Gartner" class="h-auto object-cover w-full mb-4">
+          <h3 class="text-lg font-semibold mb-2">Data Center Networking</h3>
+          <p class="text-gray-600 mb-4">NetNova recognized as a Leader in the 2023 Gartner Magic Quadrant for Data Center Networking.</p>
+          <a href="#" class="text-primary-500 font-medium hover:underline inline-flex items-center">
+            Get the report →
+          </a>
+        </div>
+        
+        <!-- Gartner Card 2 -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 opacity-0 hover-lift" id="gartner-2">
+          <img src="images/download.webp" alt="Gartner" class="h-auto object-cover w-full mb-4">
+          <h3 class="text-lg font-semibold mb-2">Wired and Wireless LAN Infrastructure</h3>
+          <p class="text-gray-600 mb-4">NetNova positioned as a Leader in the 2023 Gartner Magic Quadrant for Wired and Wireless LAN Infrastructure.</p>
+          <a href="#" class="text-primary-500 font-medium hover:underline inline-flex items-center">
+            Get the report →
+          </a>
+        </div>
+        
+        <!-- Gartner Card 3 -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 opacity-0 hover-lift" id="gartner-3">
+          <img src="images/2.jpg" alt="Gartner" class="h-auto object-cover w-full mb-4">
+          <h3 class="text-lg font-semibold mb-2">Enterprise WAN & Wireless LAN Infrastructure</h3>
+          <p class="text-gray-600 mb-4">NetNova recognized in the 2023 Gartner Magic Quadrant for Enterprise WAN & Wireless LAN Infrastructure.</p>
+          <a href="#" class="text-primary-500 font-medium hover:underline inline-flex items-center">
+            Get the report →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customers Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12 opacity-0" id="customers-heading">
+        The world's leading organizations run on our AI-Native Network
+      </h2>
+      
+      <!-- Logo Slider -->
+      <div class="logo-slider opacity-0" id="logo-slider">
+        <div class="logo-slide-track">
+          <!-- 12 logos (6 original, 6 duplicate) -->
+          <div class="logo-slide">
+            <img src="images/logo/elks-logo.png" alt="Client 1" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/G-Suite-Logo-2016-2020-768x432.png" alt="Client 2" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/y.jpg" alt="Client 3" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/2k.png" alt="Client 4" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/Android-Version-Logo-2020-768x483.png" alt="Client 5" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/Copilot-Logo-768x432.jpg" alt="Client 6" class="h-12">
+          </div>
+          <!-- Duplicate logos for continuous loop -->
+          <div class="logo-slide">
+            <img src="images/logo/elks-logo.png" alt="Client 1" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/G-Suite-Logo-2016-2020-768x432.png" alt="Client 2" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/y.jpg" alt="Client 3" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/2k.png" alt="Client 4" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="mages/logo/Android-Version-Logo-2020-768x483.png" alt="Client 5" class="h-12">
+          </div>
+          <div class="logo-slide">
+            <img src="images/logo/Copilot-Logo-768x432.jpg" alt="Client 6" class="h-12">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12 opacity-0" id="news-heading">NetNova in the News</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- News Item 1 -->
+        <div class="opacity-0" id="news-1">
+          <div class="bg-primary-50 rounded-lg overflow-hidden mb-4">
+            <img src="images/3d-robotic-render-touching-2025-circuit-diagram-start-artificial-intelligence-technology-developing-new-year_40313-993.avif" alt="News Image" class="w-full h-48 object-cover">
+          </div>
+          <h3 class="text-xl font-semibold mb-2">NetNova Delivers the Next Era of AI-Native Networking with Enhanced Security Features</h3>
+          <p class="text-gray-600 mb-2">March 15, 2025</p>
+          <p class="text-gray-700 mb-4">New capabilities strengthen NetNova's position as the leader in AI-driven networking solutions.</p>
+          <a href="#" class="text-primary-500 font-medium hover:underline">Read the press release →</a>
+        </div>
+        
+        <!-- News Item 2 -->
+        <div class="opacity-0" id="news-2">
+          <div class="bg-primary-50 rounded-lg overflow-hidden mb-4">
+            <img src="images/dictionary-definition-word_93675-57252.avif" alt="News Image" class="w-full h-48 object-cover">
+          </div>
+          <h3 class="text-xl font-semibold mb-2">NetNova Named a Leader in Enterprise Networking for the Fifth Consecutive Year</h3>
+          <p class="text-gray-600 mb-2">March 10, 2025</p>
+          <p class="text-gray-700 mb-4">Industry analysts recognize NetNova's continued innovation and market leadership.</p>
+          <a href="#" class="text-primary-500 font-medium hover:underline">Read the report →</a>
+        </div>
+        
+        <!-- News Item 3 -->
+        <div class="opacity-0" id="news-3">
+          <div class="bg-primary-50 rounded-lg overflow-hidden mb-4">
+            <img src="images/cloud-computing-system-infrastructure-modern-technology_53876-124766.avif" alt="Network Infrastructure" class="w-full h-48 object-cover">
+          </div>
+          <h3 class="text-xl font-semibold mb-2">NetNova Expands AI-Native Platform with New Cloud Capabilities</h3>
+          <p class="text-gray-600 mb-2">March 5, 2025</p>
+          <p class="text-gray-700 mb-4">Enhanced cloud integration delivers seamless experience across hybrid environments.</p>
+          <a href="#" class="text-primary-500 font-medium hover:underline">Read the announcement →</a>
+        </div>
+      </div>
+      
+      <div class="text-center mt-10 opacity-0" id="news-button">
+        <a href="#" class="inline-block px-6 py-3 bg-primary-500 hover:bg-primary-400 text-white font-medium rounded transition-colors duration-300 hover-glow">
+          View all news →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Sites Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12 opacity-0" id="global-heading">NetNova global sites</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 opacity-0" id="global-content">
+        <!-- Americas -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Americas</h3>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="text-primary-500 hover:underline">United States</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Canada</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Brazil</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Mexico</a></li>
+          </ul>
+        </div>
+        
+        <!-- Asia Pacific -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Asia Pacific</h3>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="text-primary-500 hover:underline">Australia</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">China</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">India</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Japan</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Singapore</a></li>
+          </ul>
+        </div>
+        
+        <!-- Europe and Middle East -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Europe and Middle East</h3>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="text-primary-500 hover:underline">United Kingdom</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">France</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Germany</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Italy</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">Netherlands</a></li>
+            <li><a href="about.html" class="text-primary-500 hover:underline">United Arab Emirates</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full bg-black text-white px-6 py-10">
+    <div class="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <!-- Company Section -->
+      <div>
+        <h3 class="font-semibold text-lg mb-4">Company</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li><a href="about.html" class="hover:text-white hover:underline transition-colors duration-300">About us</a></li>
+          <li><a href="careers.html" class="hover:text-white hover:underline transition-colors duration-300">Careers</a></li>
+          <li><a href="responsibility.html" class="hover:text-white hover:underline transition-colors duration-300">Corporate responsibility</a></li>
+          <li><a href="newsroom.html" class="hover:text-white hover:underline transition-colors duration-300">Newsroom</a></li>
+          <li><a href="investors.html" class="hover:text-white hover:underline transition-colors duration-300">Investor relations</a></li>
+          <li><a href="contact.html" class="hover:text-white hover:underline transition-colors duration-300">Contact us</a></li>
+        </ul>
+      </div>
+
+      <!-- Popular Resources Section -->
+      <div>
+        <h3 class="font-semibold text-lg mb-4">Popular resources</h3>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li><a href="events.html" class="hover:text-white hover:underline transition-colors duration-300">Events</a></li>
+          <li><a href="blog.html" class="hover:text-white hover:underline transition-colors duration-300">Blogs</a></li>
+          <li><a href="community.html" class="hover:text-white hover:underline transition-colors duration-300">Community</a></li>
+          <li><a href="images.html" class="hover:text-white hover:underline transition-colors duration-300">Image library</a></li>
+          <li><a href="preferences.html" class="hover:text-white hover:underline transition-colors duration-300">Manage email preferences</a></li>
+          <li><a href="sitemap.html" class="hover:text-white hover:underline transition-colors duration-300">Sitemap</a></li>
+          <li><a href="partner-login.html" class="hover:text-white hover:underline transition-colors duration-300">Partner login</a></li>
+        </ul>
+      </div>
+
+      <!-- Stay in Touch Section -->
+      <div>
+        <h3 class="font-semibold text-lg mb-4">Stay in touch</h3>
+        <form class="flex flex-col gap-3">
+          <input type="email" placeholder="Business email address" class="p-2 text-black rounded w-full focus:outline-none focus:ring-2 focus:ring-primary-500">
+          <button type="submit" class="bg-cyan-700 hover:bg-cyan-800 text-white py-2 rounded w-full transition-colors duration-300">
+            Subscribe
+          </button>
+          <label class="text-xs text-gray-400 flex items-start gap-2 mt-2">
+            <input type="checkbox" class="mt-1">
+            <span>Send me email updates about NetNova's news, events, and product details.</span>
+          </label>
+          <p class="text-xs text-gray-400">
+            You may withdraw your consent at any time via the opt-out link in our emails. For more information, see our
+            <a href="privacy.html" class="text-yellow-400 hover:underline ml-1">Privacy Notice</a>.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mx-auto max-w-7xl mt-10 border-t border-gray-700 pt-6 text-xs text-gray-400 flex flex-col gap-3 md:flex-row justify-between items-center">
+      <div class="flex flex-wrap gap-4 justify-center md:justify-start text-center md:text-left">
+        <a href="privacy.html" class="hover:text-white hover:underline transition-colors duration-300">Privacy</a>
+        <a href="legal.html" class="hover:text-white hover:underline transition-colors duration-300">Legal</a>
+        <a href="dmca.html" class="hover:text-white hover:underline transition-colors duration-300">DMCA policy</a>
+        <a href="privacy-choices.html" class="hover:text-white hover:underline transition-colors duration-300">Do not sell or share my personal information</a>
+        <a href="feedback.html" class="hover:text-white hover:underline transition-colors duration-300">Feedback</a>
+        <a href="vulnerability.html" class="hover:text-white hover:underline transition-colors duration-300">Report a vulnerability</a>
+        <a href="cookies.html" class="hover:text-white hover:underline transition-colors duration-300">Cookie Preferences</a>
+      </div>
+      <div class="text-center md:text-right">
+        &copy; 2025 NetNova, Inc. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript for animations and interactions -->
+  <script>
+    // Hero slider functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+    }
+    
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+    
+    // Change slide every 5 seconds
+    setInterval(nextSlide, 5000);
+    
+    // Documentation dropdown toggle
+    const docDropdownBtn = document.getElementById('docDropdownBtn');
+    const docDropdownArrow = document.getElementById('docDropdownArrow');
+    
+    if (docDropdownBtn) {
+      docDropdownBtn.addEventListener('click', function() {
+        docDropdownArrow.classList.toggle('rotate-180');
+        // Add dropdown functionality here
+      });
+    }
+    
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.id === 'ai-native-heading') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('ai-native-text').classList.add('animate-fade-in');
+            }, 300);
+            setTimeout(() => {
+              document.getElementById('ai-native-button').classList.add('animate-fade-in');
+            }, 600);
+          } else if (entry.target.id === 'network-diagram') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('network-text').classList.add('animate-fade-in');
+            }, 300);
+          } else if (entry.target.id === 'solutions-heading') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('solution-1').classList.add('animate-slide-up');
+            }, 200);
+            setTimeout(() => {
+              document.getElementById('solution-2').classList.add('animate-slide-up');
+            }, 400);
+            setTimeout(() => {
+              document.getElementById('solution-3').classList.add('animate-slide-up');
+            }, 600);
+            setTimeout(() => {
+              document.getElementById('solutions-button').classList.add('animate-fade-in');
+            }, 800);
+          } else if (entry.target.id === 'hands-on-image') {
+            entry.target.classList.add('animate-slide-in-right');
+            setTimeout(() => {
+              document.getElementById('hands-on-text').classList.add('animate-fade-in');
+            }, 300);
+          } else if (entry.target.id === 'gartner-heading') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('gartner-1').classList.add('animate-slide-up');
+            }, 200);
+            setTimeout(() => {
+              document.getElementById('gartner-2').classList.add('animate-slide-up');
+            }, 400);
+            setTimeout(() => {
+              document.getElementById('gartner-3').classList.add('animate-slide-up');
+            }, 600);
+          } else if (entry.target.id === 'customers-heading') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('logo-slider').classList.add('animate-fade-in');
+            }, 300);
+          } else if (entry.target.id === 'news-heading') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('news-1').classList.add('animate-slide-up');
+            }, 200);
+            setTimeout(() => {
+              document.getElementById('news-2').classList.add('animate-slide-up');
+            }, 400);
+            setTimeout(() => {
+              document.getElementById('news-3').classList.add('animate-slide-up');
+            }, 600);
+            setTimeout(() => {
+              document.getElementById('news-button').classList.add('animate-fade-in');
+            }, 800);
+          } else if (entry.target.id === 'global-heading') {
+            entry.target.classList.add('animate-fade-in');
+            setTimeout(() => {
+              document.getElementById('global-content').classList.add('animate-fade-in');
+            }, 300);
+          } else {
+            entry.target.classList.add('animate-fade-in');
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all elements with animation
+    document.querySelectorAll('[id]').forEach(el => {
+      if (el.id && el.id !== 'docDropdownBtn' && el.id !== 'docDropdownArrow') {
+        observer.observe(el);
+      }
+    });
+  </script>
+</body>
+</html>

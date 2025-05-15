@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetConnect | Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-4xl w-full bg-white shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row">
+      
+      <!-- Left: Image or Branding -->
+      <div class="md:w-1/2 hidden md:flex items-center justify-center bg-gradient-to-br from-cyan-800 to-blue-700 p-10 text-white">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold mb-4">NetConnect</h2>
+          <p class="text-lg">Secure Access to Network Solutions</p>
+        </div>
+      </div>
+
+      <!-- Right: Login Form -->
+      <div class="w-full md:w-1/2 p-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Welcome Back</h2>
+        
+        <form>
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Email</label>
+            <input type="email" placeholder="you@example.com" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600">
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Password</label>
+            <input type="password" placeholder="Enter your password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600">
+          </div>
+
+          <div class="flex items-center justify-between mb-4">
+            <label class="flex items-center">
+              <input type="checkbox" class="mr-2">
+              <span class="text-sm text-gray-600">Remember me</span>
+            </label>
+            <a href="#" class="text-sm text-cyan-700 hover:underline">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="w-full bg-cyan-800 hover:bg-cyan-700 text-white font-semibold py-2 rounded-lg transition">
+            Login
+          </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-500 mt-6">
+          Don’t have an account?
+          <a href="#" class="text-cyan-700 hover:underline">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
